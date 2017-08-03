@@ -23,6 +23,6 @@ func (o *Output) AddUnassignedPackage(packageID int) {
 }
 
 //RunAssignment creates the assignment of package to drone
-func RunAssignment(drones []Drone, packages []Package) Output {
+func RunAssignment(drones Drones, packages Packages) Output {
 	return Output{}
 }
