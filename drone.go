@@ -28,7 +28,9 @@ func (d Drone) distanceToDepot() float64 {
 	return d.Location.DistanceTo(DepotLocation)
 }
 
-func (d Drone) availableIn() int64 {
+//AvailableIn provides the time (in seconds) after which
+//the drone will be available to deliver a package
+func (d Drone) AvailableIn() int64 {
 	timeToDepot := d.distanceToDepot() / droneSpeed
 	return int64(timeToDepot * 3600 * 1000)
 }
@@ -50,5 +52,5 @@ func (d Drones) Swap(i, j int) {
 
 //Less returns true if i < j
 func (d Drones) Less(i, j int) bool {
-	return d[i].availableIn() < d[j].availableIn()
+	return d[i].AvailableIn() < d[j].AvailableIn()
 }

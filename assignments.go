@@ -1,5 +1,10 @@
 package main
 
+import (
+	"sort"
+	"time"
+)
+
 //Assignment is a package to drone assignment
 type Assignment struct {
 	DroneID   int `json:"droneId"`
@@ -24,5 +29,23 @@ func (o *Output) AddUnassignedPackage(packageID int) {
 
 //RunAssignment creates the assignment of package to drone
 func RunAssignment(drones Drones, packages Packages) Output {
-	return Output{}
+	o := Output{}
+	//sort drones by next available time
+	sort.Sort(drones)
+	//sort packages by deadline
+	packages = sort.Reverse(packages).(Packages)
+	currentDroneIndex := 0
+	for _, p := range packages {
+		//find if a drone can deliver
+		drone := drones[currentDroneIndex]
+		if p.Deadline < time.Now().Unix()+drone.AvailableIn() {
+			//this drone can deliver this package
+			o.AddAssignment(drone.DroneID, p.PackageID)
+			currentDroneIndex++
+		} else {
+			//this drone cannot deliver this package
+			o.AddUnassignedPackage(p.PackageID)
+		}
+	}
+	return o
 }
