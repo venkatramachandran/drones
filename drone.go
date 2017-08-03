@@ -1,5 +1,7 @@
 package main
 
+import "log"
+
 //Drone deliver items
 type Drone struct {
 	DroneID  int      `json:"droneId"`
@@ -15,27 +17,35 @@ func (d Drone) HasPackageAssigned() bool {
 
 func (d Drone) distanceToDestination() float64 {
 	if d.HasPackageAssigned() {
-		return d.Location.DistanceTo(d.Packages[0].Destination)
+		distance := d.Location.DistanceTo(d.Packages[0].Destination)
+		log.Printf("distance to destination: %f\n", distance)
+		return distance
 	}
 	return 0
 }
 
 func (d Drone) distanceToDepot() float64 {
 	if d.HasPackageAssigned() {
-		return d.distanceToDestination() +
+		distance := d.distanceToDestination() +
 			d.Packages[0].Destination.DistanceTo(DepotLocation)
+		log.Printf("distance to depot: %f\n", distance)
+		return distance
 	}
-	return d.Location.DistanceTo(DepotLocation)
+	distance := d.Location.DistanceTo(DepotLocation)
+	log.Printf("distance to depot: %f\n", distance)
+	return distance
 }
 
 //AvailableIn provides the time (in seconds) after which
 //the drone will be available to deliver a package
 func (d Drone) AvailableIn() int64 {
-	timeToDepot := d.distanceToDepot() / droneSpeed
-	return int64(timeToDepot * 3600 * 1000)
+	timeToDepot := int64(d.distanceToDepot() / DroneSpeed * 3600)
+	log.Printf("Time to depot in seconds: %d\n", timeToDepot)
+	return timeToDepot
 }
 
-const droneSpeed = 20
+//DroneSpeed is the drone's speed in kmph
+const DroneSpeed = 20
 
 //Drones is a collection of Drones
 type Drones []Drone
