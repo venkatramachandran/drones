@@ -12,3 +12,5 @@ type Drone struct {
 func (d Drone) HasPackageAssigned() bool {
 	return len(d.Packages) > 0
 }
+
+const DroneSpeed = 20

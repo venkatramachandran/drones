@@ -35,3 +35,6 @@ func (l Location) DistanceTo(o Location) float64 {
 
 	return rounded
 }
+
+//DepotLocation is the location of the depot
+var DepotLocation = Location{Latitude: -37.816664, Longitude: 144.9637108}
