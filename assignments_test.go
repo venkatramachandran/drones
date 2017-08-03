@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"testing"
@@ -238,7 +237,4 @@ func TestRunAssignments(t *testing.T) {
 		t.Fatalf("testcase %d failed! Expected length of assigned packages: %d, got %d\n",
 			5, len(expectedOutputCase5.Assignments), len(outputCase5.Assignments))
 	}
-	fmt.Printf("got: %v\n", outputCase5)
-	fmt.Printf("expected: %v\n", expectedOutputCase5)
-
 }
