@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"testing"
@@ -177,4 +178,67 @@ func TestRunAssignments(t *testing.T) {
 		t.Fatalf("testcase %d failed! Expected length of assigned packages: %d, got %d\n",
 			4, len(expectedOutputCase4.Assignments), len(outputCase4.Assignments))
 	}
+
+	//5. Case provided in github.com/getswift/codetest
+	dronesCase5 := []Drone{
+		Drone{
+			DroneID: 321361,
+			Location: Location{
+				Latitude:  -37.78290448241537,
+				Longitude: 144.85335277520906,
+			},
+			Packages: []Package{
+				Package{
+					PackageID: 7645,
+					Deadline:  1500422916,
+					Destination: Location{
+						Latitude:  -37.78389758422243,
+						Longitude: 144.8574574322506,
+					},
+				},
+			},
+		},
+		Drone{
+			DroneID: 493959,
+			Location: Location{
+				Latitude:  -37.77718638788778,
+				Longitude: 144.8603578487479,
+			},
+			Packages: []Package{},
+		},
+	}
+	packagesCase5 := []Package{
+		Package{
+			PackageID: 8041,
+			Deadline:  1500425202,
+			Destination: Location{
+				Latitude:  -37.78404125474984,
+				Longitude: 144.85238118232522,
+			},
+		},
+		Package{
+			PackageID: 8218,
+			Deadline:  1500423287,
+			Destination: Location{
+				Latitude:  -37.77058198385452,
+				Longitude: 144.85157121265505,
+			},
+		},
+	}
+	outputCase5 := RunAssignment(dronesCase5, packagesCase5)
+	expectedOutputCase5 := Output{
+		Assignments:       []Assignment{},
+		UnassignedPakages: []int{8041, 8218},
+	}
+	if len(outputCase5.UnassignedPakages) != len(expectedOutputCase5.UnassignedPakages) {
+		t.Fatalf("testcase %d failed! Expected length of unassinged packages: %d, got %d\n",
+			5, len(expectedOutputCase5.UnassignedPakages), len(outputCase5.UnassignedPakages))
+	}
+	if len(outputCase5.Assignments) != len(expectedOutputCase5.Assignments) {
+		t.Fatalf("testcase %d failed! Expected length of assigned packages: %d, got %d\n",
+			5, len(expectedOutputCase5.Assignments), len(outputCase5.Assignments))
+	}
+	fmt.Printf("got: %v\n", outputCase5)
+	fmt.Printf("expected: %v\n", expectedOutputCase5)
+
 }
